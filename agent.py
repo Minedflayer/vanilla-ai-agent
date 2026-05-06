@@ -1,13 +1,16 @@
+import os
 import json
 import datetime
 from groq import Groq
 from tavily import TavilyClient
+from dotenv import load_dotenv 
 
+load_dotenv()
 # ==========================================
 # 1. SETUP THE CLIENTS
 # ==========================================
-client = Groq(api_key="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")
-tavily_client = TavilyClient(api_key="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") 
+client = Groq(api_key=os.getenv("GROQ_API_KEY"))
+tavily_client = TavilyClient(api_key=os.getenv("TAVILY_API_KEY"))
 MODEL_ID = "llama-3.1-8b-instant" 
 
 # ==========================================
