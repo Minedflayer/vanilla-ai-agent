@@ -1,0 +1,3 @@
+Coffee: 5
+Lunch: 15
+Keyboard: 100
