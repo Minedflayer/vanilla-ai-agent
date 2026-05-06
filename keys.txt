@@ -1,1 +1,0 @@
-client = Groq(api_key="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")
