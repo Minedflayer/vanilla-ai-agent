@@ -1,0 +1,9 @@
+{
+    "existing.setting": "value",
+    "another.setting": true,
+    
+    "[python]": {
+        "editor.defaultFormatter": "ms-python.black-formatter",
+        "editor.formatOnSave": true
+    }
+}
