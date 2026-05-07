@@ -5,6 +5,7 @@ from groq import Groq
 from tavily import TavilyClient
 from dotenv import load_dotenv
 from memory import enforce_memory_limit
+from safety import get_human_approval
 
 load_dotenv()
 # ==========================================
@@ -131,7 +132,7 @@ tools_list = [
 # ==========================================
 
 # MOVE MEMORY OUTSIDE: We put the messages array outside the loop
-# so it doesn't get erased every time you ask a new question!
+# so it doesn't get erased every time a new question is being asked
 messages = [
     {
         "role": "system",
@@ -207,7 +208,6 @@ def start_chat():
                             ] += tc_chunk.function.arguments
 
             # --- THE STREAM IS FINISHED ---
-            # 👇 LOOK HERE: See how 'if' is perfectly lined up vertically with 'for'?
             if tool_call_buffer:
                 tool_calls_list = list(tool_call_buffer.values())
                 messages.append({"role": "assistant", "tool_calls": tool_calls_list})
