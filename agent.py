@@ -5,7 +5,8 @@ from groq import Groq
 from tavily import TavilyClient
 from dotenv import load_dotenv
 from memory import enforce_memory_limit
-from safety import get_human_approval
+
+# from safety import get_human_approval
 
 load_dotenv()
 # ==========================================

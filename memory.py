@@ -20,7 +20,6 @@ def enforce_memory_limit(messages, max_messages=10):
     # Grab recent message
     recent_messages = messages[-max_messages:]
 
-    # CRITICAL SAFETY CHECK:
     # We cannot accidentally delete an AI tool request but keep the tool output.
     # If the first message in our new "recent" list is a "tool" result,
     # or an assistant "tool_call", we delete it to prevent API crashes.
