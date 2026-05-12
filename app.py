@@ -27,19 +27,19 @@ for msg in st.session_state.messages:
     if msg["role"] == "system":
         continue
 
-    # 1. Normal User Messages
+    # Normal User Messages
     if msg["role"] == "user":
         with st.chat_message("user"):
             st.markdown(msg["content"])
 
-    # 2. Assistant Messages
+    # Assistant Messages
     elif msg["role"] == "assistant":
         # If the AI actually spoke text, print it
         if msg.get("content"):
             with st.chat_message("assistant"):
                 st.markdown(msg["content"])
 
-    # 3. Tool Results
+    # Tool Results
     elif msg["role"] == "tool":
         # Recreate the dropdown status box for historical tool uses
         with st.chat_message("assistant"):
@@ -111,6 +111,7 @@ with st.chat_message("assistant"):
                 with st.status(f"🛠️ Tool: {f_name}...", expanded=False):
                     # Dynamic execution
                     func = available_functions[f_name]
+
                     obs = func(**f_args) if f_args else func()
                     st.write(f"Result: {str(obs)[:100]}...")
 

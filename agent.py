@@ -186,10 +186,12 @@ def start_chat():
             for chunk in response:
                 delta = chunk.choices[0].delta
 
+                # Handle text streaming
                 if delta.content:
                     print(delta.content, end="", flush=True)
                     final_text += delta.content
 
+                # Handle tool call streaming
                 if delta.tool_calls:
                     for tc_chunk in delta.tool_calls:
                         idx = tc_chunk.index
@@ -215,17 +217,33 @@ def start_chat():
 
                 for tc in tool_calls_list:
                     function_name = tc["function"]["name"]
-                    function_args = json.loads(tc["function"]["arguments"])
+                    try:
+                        function_args = json.loads(tc["function"]["arguments"])
+                    except json.JSONDecodeError as e:
+                        obs = (
+                            f"Error: Invalid JSON arguments provided. Parse error: {e}"
+                        )
+                        print(f"\n   [Error]: {obs}")
+                        print(
+                            f"\n   [Thought]: Calling '{function_name}' with {function_args}"
+                        )
 
-                    print(
-                        f"\n   [Thought]: Calling '{function_name}' with {function_args}"
-                    )
+                try:
+                    if function_name not in available_functions:
+                        raise ValueError(
+                            f"Function '{function_name}' does not exist in available_functions."
+                        )
+
                     function_to_call = available_functions[function_name]
 
                     if function_name == "get_current_time":
                         obs = function_to_call()
                     else:
                         obs = function_to_call(**function_args)
+                except Exception as e:
+                    # Catch any runtime errors from the function itself and pass them to the LLM
+                    obs = f"Error executing tool '{function_name}': {str(e)}"
+                    print(f"\n   [Error]: {obs}")
 
                     print(f"   [Tool Output]: {str(obs)[:200]}...")
 
@@ -237,6 +255,7 @@ def start_chat():
                             "content": str(obs),
                         }
                     )
+                    continue
             else:
                 # If no tools were called, save the text and break the inner loop!
                 messages.append({"role": "assistant", "content": final_text})
