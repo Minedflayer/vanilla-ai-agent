@@ -118,6 +118,27 @@ tools_list = [
     },
 ]
 
+# ==========================================
+#               AUTO TITLING
+# ==========================================
+
+# def generate_chat_title(user_message: str) -> str:
+#     """Generates a short, 3-word title based on the user's first message."""
+#     try:
+#         response = client.chat.completions.create(
+#             model="llama-3.1-8b-instant",
+#             messages=[
+#                 {"role": "system", "content": "You are a helpful assistant. Summarize the user's message into a concise 3-word title. Do not use quotes or punctuation."},
+#                 {"role": "user", "content": user_message}
+#             ],
+#             max_tokens=10,
+#             temperature=0.5
+#         )
+#         return response.choices[0].message.content.strip()
+#     except Exception as e:
+#         print(f"Error generating file: {e}")
+#         return "New Chat"
+
 
 # ==========================================
 # 3. CORE AGENT LOGIC (Streaming Generator)
