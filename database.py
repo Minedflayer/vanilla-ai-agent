@@ -63,3 +63,23 @@ def load_all_chats():
         chats_dict[chat_id] = messages
 
     return chats_dict
+
+
+# Helper function that fetches title
+def get_chat_title(chat_id):
+    """Fetches just the title for a specific chat ID."""
+    conn = sqlite3.connect(DB_FILE)
+    cursor = conn.cursor()
+    cursor.execute("SELECT title FROM chats WHERE id = ?", (chat_id,))
+    row = cursor.fetchone()
+    conn.close()
+    return row[0] if row else "New chat"
+
+
+def delete_chat(chat_id):
+    """Permanently removes a chat and its messages from the database."""
+    conn = sqlite3.connect(DB_FILE)
+    cursor = conn.cursor()
+    cursor.execute("DELETE FROM chats WHERE id = ?", (chat_id,))
+    conn.commit()
+    conn.close()
