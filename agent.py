@@ -118,26 +118,36 @@ tools_list = [
     },
 ]
 
+
 # ==========================================
 #               AUTO TITLING
 # ==========================================
-
-# def generate_chat_title(user_message: str) -> str:
-#     """Generates a short, 3-word title based on the user's first message."""
-#     try:
-#         response = client.chat.completions.create(
-#             model="llama-3.1-8b-instant",
-#             messages=[
-#                 {"role": "system", "content": "You are a helpful assistant. Summarize the user's message into a concise 3-word title. Do not use quotes or punctuation."},
-#                 {"role": "user", "content": user_message}
-#             ],
-#             max_tokens=10,
-#             temperature=0.5
-#         )
-#         return response.choices[0].message.content.strip()
-#     except Exception as e:
-#         print(f"Error generating file: {e}")
-#         return "New Chat"
+def generate_chat_title(user_message: str) -> str:
+    """Generates a short topic-based title based on the user's first message."""
+    try:
+        response = client.chat.completions.create(
+            model="llama-3.1-8b-instant",
+            messages=[
+                {
+                    "role": "system",
+                    "content": (
+                        "You are a title generator. Extract the core subject of the user's "
+                        "message into a 2-3 word topic. \n"
+                        "Examples:\n"
+                        "User: 'What is the capital of France?' -> France Capital\n"
+                        "User: 'Write a python script to scrape a website' -> Python Web Scraper\n"
+                        "Do not just repeat the first words of the user's sentence. Keep it short and noun-focused."
+                    ),
+                },
+                {"role": "user", "content": user_message},
+            ],
+            max_tokens=10,
+            temperature=0.3,  # Lower temperature so it's more direct and less "creative"
+        )
+        return response.choices[0].message.content.strip()
+    except Exception as e:
+        print(f"Error generating title: {e}")
+        return "New Chat"
 
 
 # ==========================================
