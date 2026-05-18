@@ -4,11 +4,5 @@ venv/
 
 # Python internals
 __pycache__/
-*.py[cod]
-
-# Databases
+.env
 chats.db
-*.db
-
-# Streamlit internals
-.streamlit/config.toml
