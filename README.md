@@ -4,6 +4,9 @@ A lightweight Streamlit chat application that connects a local UI to a Groq-powe
 
 It stores conversations in a local SQLite database and supports tool-enabled responses for time, math, file reading, and live web search.
 
+Try it out here!
+https://vanilla-ai-agent-esidip9e5hbqsfkuunygze.streamlit.app/
+
 ## Features
 
 - Streamlit chat interface with sidebar chat history
